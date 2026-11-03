@@ -114,3 +114,12 @@ codyssey-1-2/
     ]
 }
 ```
+
+---
+
+## 7. 클래스 설계 및 역할 분리
+| 클래스명 | 파일 | 주요 역할 및 메서드 |
+| :--- | :--- | :--- |
+| `Quiz` | `quiz.py` | 개별 문제(`question`), 선택지(`choices`), 정답(`answer`), 힌트(`hint`) 관리 및 `display()`, `check_answer()`, `to_dict()`, `from_dict()` 제공 |
+| `StateStorage` | `storage.py` | `state.json` UTF-8 읽기/쓰기 및 파일 누락·손상 시 기본 퀴즈 복구(`load()`, `save()`) |
+| `QuizGame` | `game.py` | 메뉴 표시, 공통 입력 예외 검증(`get_valid_int`), 퀴즈 풀기/추가/목록/삭제/점수 조회 제어 |
