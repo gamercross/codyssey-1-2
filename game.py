@@ -184,8 +184,27 @@ class QuizGame:
         print("========================================")
 
     def add_quiz(self) -> None:
-        """퀴즈 추가 기능."""
-        print("\n준비 중인 기능입니다.")
+        """사용자로부터 문제, 선택지 4개, 정답 번호, 힌트를 입력받아 새 퀴즈를 등록한다."""
+        print("\n📌 새로운 퀴즈를 추가합니다.")
+        question = self.get_non_empty_str("문제를 입력하세요: ")
+
+        choices: list[str] = []
+        for idx in range(1, 5):
+            choice_text = self.get_non_empty_str(f"선택지 {idx}: ")
+            choices.append(choice_text)
+
+        answer = self.get_valid_int("정답 번호 (1-4): ", 1, 4)
+        hint = self.get_non_empty_str("힌트 (선택사항, 없으면 Enter): ", allow_empty=True)
+
+        new_quiz = Quiz(
+            question=question,
+            choices=choices,
+            answer=answer,
+            hint=hint,
+        )
+        self.quizzes.append(new_quiz)
+        self.save_state()
+        print("\n✅ 퀴즈가 추가되었습니다!")
 
     def list_quizzes(self) -> None:
         """퀴즈 목록 조회 기능."""
