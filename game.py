@@ -1,6 +1,8 @@
 """퀴즈 게임 전체 흐름과 메뉴/입출력을 관리하는 QuizGame 클래스 모듈."""
 
+from datetime import datetime
 from pathlib import Path
+import random
 from typing import Any
 
 from quiz import Quiz
@@ -96,8 +98,90 @@ class QuizGame:
         print("========================================")
 
     def play_quiz(self) -> None:
-        """퀴즈 풀기 기능 (추후 브랜치에서 구현)."""
-        print("\n준비 중인 기능입니다.")
+        """저장된 퀴즈를 랜덤 순서로 출제하고 점수를 계산한다."""
+        if not self.quizzes:
+            print("\n⚠️ 등록된 퀴즈가 없습니다. 먼저 '2. 퀴즈 추가'에서 문제를 등록해주세요.")
+            return
+
+        total_available = len(self.quizzes)
+        print(f"\n📌 현재 등록된 퀴즈는 총 {total_available}문제입니다.")
+        question_count = self.get_valid_int(
+            f"출제할 문제 수를 입력하세요 (1~{total_available}, Enter 입력 시 전체 {total_available}문제): ",
+            min_val=1,
+            max_val=total_available,
+            allow_default=total_available,
+        )
+
+        selected_quizzes = random.sample(self.quizzes, question_count)
+        print(f"\n📝 퀴즈를 시작합니다! (총 {question_count}문제 / 랜덤 출제)")
+        print("💡 풀이 중 '0'을 입력하면 힌트를 볼 수 있습니다. (힌트 사용 시 5점 차감)")
+
+        correct_count = 0
+        hints_used = 0
+
+        for idx, quiz in enumerate(selected_quizzes, start=1):
+            print("\n----------------------------------------")
+            quiz.display(index=idx)
+            used_hint_for_this = False
+
+            while True:
+                prompt_msg = (
+                    "정답 입력 (1~4, 힌트 보기: 0): "
+                    if quiz.hint and not used_hint_for_this
+                    else "정답 입력 (1~4): "
+                )
+                min_allowed = 0 if (quiz.hint and not used_hint_for_this) else 1
+                user_ans = self.get_valid_int(prompt_msg, min_allowed, 4)
+
+                if user_ans == 0:
+                    used_hint_for_this = True
+                    hints_used += 1
+                    print(f"💡 [힌트] {quiz.hint} (-5점)")
+                    continue
+                break
+
+            if quiz.check_answer(user_ans):
+                correct_count += 1
+                print("✅ 정답입니다!")
+            else:
+                correct_text = quiz.choices[quiz.answer - 1]
+                print(f"❌ 오답입니다! (정답: {quiz.answer}번 - {correct_text})")
+
+        raw_score = round((correct_count / question_count) * 100)
+        penalty = hints_used * 5
+        final_score = max(0, raw_score - penalty)
+
+        print("\n========================================")
+        if hints_used > 0:
+            print(
+                f"🏆 결과: {question_count}문제 중 {correct_count}문제 정답! "
+                f"(기본 {raw_score}점 - 힌트 {hints_used}회({penalty}점) = 최종 {final_score}점)"
+            )
+        else:
+            print(
+                f"🏆 결과: {question_count}문제 중 {correct_count}문제 정답! ({final_score}점)"
+            )
+
+        is_new_best = self.best_score is None or final_score > self.best_score
+        if is_new_best:
+            self.best_score = final_score
+            self.best_detail = {
+                "correct": correct_count,
+                "total": question_count,
+            }
+            print("🎉 새로운 최고 점수입니다!")
+
+        self.history.append(
+            {
+                "played_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                "total": question_count,
+                "correct": correct_count,
+                "hints_used": hints_used,
+                "score": final_score,
+            }
+        )
+        self.save_state()
+        print("========================================")
 
     def add_quiz(self) -> None:
         """퀴즈 추가 기능."""
