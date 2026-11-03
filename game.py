@@ -207,8 +207,17 @@ class QuizGame:
         print("\n✅ 퀴즈가 추가되었습니다!")
 
     def list_quizzes(self) -> None:
-        """퀴즈 목록 조회 기능."""
-        print("\n준비 중인 기능입니다.")
+        """등록된 전체 퀴즈 목록을 출력한다."""
+        if not self.quizzes:
+            print("\n⚠️ 현재 등록된 퀴즈가 없습니다.")
+            return
+
+        print(f"\n📋 등록된 퀴즈 목록 (총 {len(self.quizzes)}개)")
+        print("----------------------------------------")
+        for idx, quiz in enumerate(self.quizzes, start=1):
+            hint_badge = " [💡힌트 있음]" if quiz.hint else ""
+            print(f"[{idx}] {quiz.question}{hint_badge}")
+        print("----------------------------------------")
 
     def show_scores(self) -> None:
         """점수 및 히스토리 확인 기능."""
