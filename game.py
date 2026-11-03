@@ -252,8 +252,24 @@ class QuizGame:
         print("========================================")
 
     def delete_quiz(self) -> None:
-        """등록된 퀴즈 삭제 기능."""
-        print("\n준비 중인 기능입니다.")
+        """등록된 퀴즈 목록을 보여주고 선택한 번호의 퀴즈를 삭제한다."""
+        if not self.quizzes:
+            print("\n⚠️ 삭제할 수 있는 퀴즈가 없습니다.")
+            return
+
+        self.list_quizzes()
+        target_idx = self.get_valid_int(
+            f"삭제할 퀴즈 번호를 입력하세요 (1~{len(self.quizzes)}, 취소: 0): ",
+            min_val=0,
+            max_val=len(self.quizzes),
+        )
+        if target_idx == 0:
+            print("↩️ 퀴즈 삭제를 취소했습니다.")
+            return
+
+        removed = self.quizzes.pop(target_idx - 1)
+        self.save_state()
+        print(f"\n🗑️ [{target_idx}] '{removed.question}' 퀴즈가 삭제되었습니다.")
 
     def run(self) -> None:
         """게임 메인 루프를 실행한다."""
