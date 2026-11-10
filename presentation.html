@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🎯 나만의 퀴즈 게임 — 프로젝트 발표 자료</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0b0f19;
+      --bg-secondary: #131b2e;
+      --bg-card: rgba(25, 35, 58, 0.78);
+      --bg-terminal: #161822;
+      --border-subtle: rgba(148, 163, 184, 0.18);
+      --border-highlight: rgba(56, 189, 248, 0.45);
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --accent-blue: #38bdf8;
+      --accent-indigo: #818cf8;
+      --accent-emerald: #34d399;
+      --accent-amber: #fbbf24;
+      --accent-rose: #fb7185;
+      --font-sans: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: radial-gradient(circle at 15% 15%, #1e293b 0%, #0b0f19 60%, #060911 100%);
+      color: var(--text-primary);
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+      user-select: none;
+    }
+
+    /* Background decorative glow */
+    .bg-glow {
+      position: fixed;
+      width: 520px;
+      height: 520px;
+      border-radius: 50%;
+      filter: blur(130px);
+      opacity: 0.16;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .glow-1 { top: -140px; left: -120px; background: var(--accent-blue); }
+    .glow-2 { bottom: -160px; right: -120px; background: var(--accent-indigo); }
+
+    /* Top Header & Progress */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 36px;
+      background: rgba(11, 15, 25, 0.75);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-subtle);
+      z-index: 100;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--text-primary);
+    }
+
+    .brand-badge {
+      background: linear-gradient(135deg, var(--accent-blue), var(--accent-indigo));
+      color: #0b0f19;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+    }
+
+    .slide-nav-pills {
+      display: flex;
+      gap: 6px;
+    }
+
+    .nav-pill {
+      padding: 5px 11px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      background: transparent;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: var(--font-sans);
+    }
+
+    .nav-pill:hover {
+      color: var(--text-primary);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .nav-pill.active {
+      color: var(--accent-blue);
+      background: rgba(56, 189, 248, 0.12);
+      border-color: rgba(56, 189, 248, 0.35);
+      font-weight: 600;
+    }
+
+    .progress-bar-container {
+      position: fixed;
+      top: 56px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.06);
+      z-index: 101;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-blue), var(--accent-indigo), var(--accent-emerald));
+      width: 11.11%;
+      transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* Slide Container */
+    main.deck {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      padding: 76px 56px 68px;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    section.slide {
+      display: none;
+      width: 100%;
+      max-width: 1360px;
+      height: 100%;
+      flex-direction: column;
+      justify-content: center;
+      animation: fadeSlide 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow-y: auto;
+      padding: 8px 4px;
+    }
+
+    section.slide.active {
+      display: flex;
+    }
+
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateY(14px) scale(0.99); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* Typography */
+    .slide-eyebrow {
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent-blue);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    h1.hero-title {
+      font-size: 3.3rem;
+      font-weight: 800;
+      line-height: 1.18;
+      letter-spacing: -0.02em;
+      margin-bottom: 18px;
+      background: linear-gradient(135deg, #ffffff 30%, #93c5fd 70%, #818cf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    h2.slide-title {
+      font-size: 2.05rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+      color: #ffffff;
+    }
+
+    p.slide-subtitle {
+      font-size: 1.02rem;
+      color: var(--text-secondary);
+      margin-bottom: 22px;
+      line-height: 1.55;
+    }
+
+    /* Grid Layouts */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 20px 22px;
+      backdrop-filter: blur(12px);
+      transition: border-color 0.25s, transform 0.2s;
+    }
+
+    .card:hover {
+      border-color: var(--border-highlight);
+    }
+
+    .card-highlight {
+      border-color: rgba(56, 189, 248, 0.4);
+      background: linear-gradient(160deg, rgba(30, 41, 59, 0.85), rgba(15, 23, 42, 0.9));
+    }
+
+    .card-title {
+      font-size: 1.08rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #ffffff;
+    }
+
+    .card p, .card li {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: #cbd5e1;
+    }
+
+    .card ul {
+      padding-left: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    /* Badges & Tags */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 9px;
+      border-radius: 6px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      font-family: var(--font-mono);
+    }
+    .badge-blue { background: rgba(56, 189, 248, 0.16); color: var(--accent-blue); border: 1px solid rgba(56, 189, 248, 0.3); }
+    .badge-emerald { background: rgba(52, 211, 153, 0.16); color: var(--accent-emerald); border: 1px solid rgba(52, 211, 153, 0.3); }
+    .badge-amber { background: rgba(251, 191, 36, 0.16); color: var(--accent-amber); border: 1px solid rgba(251, 191, 36, 0.3); }
+    .badge-rose { background: rgba(251, 113, 133, 0.16); color: var(--accent-rose); border: 1px solid rgba(251, 113, 133, 0.3); }
+    .badge-indigo { background: rgba(129, 140, 248, 0.16); color: var(--accent-indigo); border: 1px solid rgba(129, 140, 248, 0.3); }
+
+    /* Code & Terminal Blocks */
+    pre.code-block, .terminal-box {
+      background: var(--bg-terminal);
+      border: 1px solid rgba(148, 163, 184, 0.22);
+      border-radius: 12px;
+      padding: 14px 18px;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      line-height: 1.55;
+      color: #e2e8f0;
+      overflow-x: auto;
+      user-select: text;
+    }
+
+    .terminal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 9px 14px;
+      background: #232736;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+      border: 1px solid rgba(148, 163, 184, 0.22);
+      border-bottom: none;
+    }
+
+    .terminal-dots {
+      display: flex;
+      gap: 7px;
+    }
+
+    .dot { width: 11px; height: 11px; border-radius: 50%; }
+    .dot-r { background: #ff5f56; }
+    .dot-y { background: #ffbd2e; }
+    .dot-g { background: #27c93f; }
+
+    .terminal-header- {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: #94a3b8;
+    }
+
+    .terminal-body {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+
+    /* Tables */
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      background: rgba(15, 23, 42, 0.65);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border-subtle);
+    }
+
+    table.data-table th {
+      background: rgba(30, 41, 59, 0.9);
+      color: var(--accent-blue);
+      text-align: left;
+      padding: 10px 14px;
+      font-weight: 700;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    table.data-table td {
+      padding: 9px 14px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+      color: #e2e8f0;
+      line-height: 1.45;
+    }
+
+    table.data-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    code.inline {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      background: rgba(56, 189, 248, 0.13);
+      color: #7dd3fc;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    /* Interactive Demo Tabs */
+    .demo-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .demo-tab-btn {
+      padding: 8px 16px;
+      border-radius: 8px;
+      background: rgba(30, 41, 59, 0.75);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: var(--font-sans);
+    }
+
+    .demo-tab-btn.active {
+      background: rgba(56, 189, 248, 0.18);
+      border-color: var(--accent-blue);
+      color: #ffffff;
+    }
+
+    .demo-panel {
+      display: none;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .demo-panel.active {
+      display: grid;
+    }
+
+    .screenshot-img {
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+    }
+
+    /* Architecture Flow Diagram */
+    .arch-flow {
+      display: flex;
+      align-items: stretch;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .arch-node {
+      flex: 1;
+      background: rgba(30, 41, 59, 0.85);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      border-radius: 14px;
+      padding: 16px;
+      position: relative;
+    }
+
+    .arch-arrow {
+      display: flex;
+      align-items: center;
+      font-size: 1.4rem;
+      color: var(--accent-blue);
+      font-weight: 700;
+    }
+
+    /* Footer Controls */
+    footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 36px;
+      background: rgba(11, 15, 25, 0.8);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid var(--border-subtle);
+      z-index: 100;
+    }
+
+    .footer-hint {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .kbd {
+      font-family: var(--font-mono);
+      font-size: 0.73rem;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      padding: 2px 7px;
+      border-radius: 4px;
+      color: #e2e8f0;
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-control {
+      background: rgba(30, 41, 59, 0.9);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-primary);
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: var(--font-sans);
+    }
+
+    .btn-control:hover {
+      border-color: var(--accent-blue);
+      background: rgba(56, 189, 248, 0.15);
+    }
+
+    .slide-counter {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--accent-blue);
+      min-width: 58px;
+      text-align: center;
+    }
+
+    /* Hero Stats Row */
+    .stat-box {
+      background: rgba(15, 23, 42, 0.75);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 16px 18px;
+      text-align: center;
+    }
+    .stat-num {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--accent-blue);
+      font-family: var(--font-mono);
+    }
+    .stat-label {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-glow glow-1"></div>
+  <div class="bg-glow glow-2"></div>
+
+  <!-- Top Navigation -->
+  <header>
+    <div class="brand">
+      <span class="brand-badge">CODYSSEY 1-2</span>
+      <span>🎯 나만의 퀴즈 게임 — 아키텍처 & 구현 발표</span>
+    </div>
+    <nav class="slide-nav-pills" id="navPills"></nav>
+  </header>
+  <div class="progress-bar-container">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+
+  <!-- Slide Deck -->
+  <main class="deck">
+
+    <!-- SLIDE 1: Cover / Overview -->
+    <section class="slide active" data-title="1. 개요">
+      <div class="slide-eyebrow">🚀 MISSION 1-2 PROJECT PRESENTATION</div>
+      <h1 class="hero-title">터미널에서 동작하는<br/>나만의 IT·Python 상식 퀴즈 게임</h1>
+      <p class="slide-subtitle">
+        Python 표준 라이브러리와 <b>객체지향 3계층 클래스 설계(Quiz · StateStorage · QuizGame)</b>를 활용하여<br/>
+        입력 검증, JSON 데이터 영속성, 손상 자동 백업/복구, Git 브랜치 워크플로우까지 완성한 콘솔 애플리케이션입니다.
+      </p>
+
+      <div class="grid-4" style="margin-bottom: 22px;">
+        <div class="stat-box">
+          <div class="stat-num">3 Classes</div>
+          <div class="stat-label">책임 분리 (Quiz · Storage · Game)</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num" style="color: var(--accent-emerald);">100%</div>
+          <div class="stat-label">필수 요구사항 + 보너스 5종 구현</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num" style="color: var(--accent-amber);">17+</div>
+          <div class="stat-label">원자적 기능 단위 Git 커밋 & 브랜치 병합</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num" style="color: var(--accent-indigo);">20 / 20</div>
+          <div class="stat-label">평가 기준 항목 검증 & 단위 테스트 통과</div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card card-highlight">
+          <div class="card-title">📌 핵심 개발 환경 및 제약 조건 준수</div>
+          <ul>
+            <li><b>개발 언어</b>: Python 3.10+ 표준 문법 (현재 <code class="inline">Python 3.14.4</code> 검증 완료)</li>
+            <li><b>외부 의존성 Zero</b>: 외부 패키지 없이 <code class="inline">json</code>, <code class="inline">pathlib</code>, <code class="inline">random</code>, <code class="inline">unittest</code> 등 표준 라이브러리만 사용</li>
+            <li><b>데이터 영속성</b>: 프로젝트 루트 <code class="inline">./state.json</code> (UTF-8 인코딩) 자동 저장 및 복구</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title">🔗 GitHub 저장소 및 Pull Request</div>
+          <ul>
+            <li><b>원격 저장소</b>: <code class="inline">https://github.com/gamercross/codyssey-1-2</code></li>
+            <li><b>Pull Request</b>: <code class="inline">https://github.com/gamercross/codyssey-1-2/pull/1</code></li>
+            <li><b>Git 7대 명령어 완수</b>: <code class="inline">init</code>, <code class="inline">add</code>, <code class="inline">commit</code>, <code class="inline">push</code>, <code class="inline">pull</code>, <code class="inline">checkout</code>, <code class="inline">clone</code> 실습 완료</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 2: Quiz Topic & Default Data -->
+    <section class="slide" data-title="2. 주제 & 데이터">
+      <div class="slide-eyebrow">📚 QUIZ THEME & DATA DESIGN</div>
+      <h2 class="slide-title">퀴즈 주제 선정 이유 및 기본 6문제 출처·라이선스</h2>
+      <p class="slide-subtitle">
+        이번 미션의 학습 목표인 <b>Python 기초 문법, 클래스와 객체, JSON 파일 입출력, Git 명령어</b>를 퀴즈 문제로 구성하여,<br/>
+        게임을 플레이하는 과정 자체가 핵심 개념을 복습하고 점검하는 경험이 되도록 기획했습니다.
+      </p>
+
+      <table class="data-table" style="margin-bottom: 18px;">
+        <thead>
+          <tr>
+            <th style="width: 60px;">번호</th>
+            <th>기본 탑재 퀴즈 문제 (<code class="inline">default_data.py</code>)</th>
+            <th style="width: 150px;">정답</th>
+            <th style="width: 240px;">공식 문서 출처 및 라이선스</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>Q1</b></td>
+            <td>Python 프로그래밍 언어를 창시한 사람은 누구인가요?</td>
+            <td><span class="badge badge-emerald">1. 귀도 반 로섬</span></td>
+            <td>Python 공식 FAQ / CC BY 4.0 & MIT</td>
+          </tr>
+          <tr>
+            <td><b>Q2</b></td>
+            <td>Python에서 순서가 있고 요소를 변경할 수 있는(Mutable) 자료형은?</td>
+            <td><span class="badge badge-emerald">3. list (리스트)</span></td>
+            <td>Python 표준 타입 문서 / CC BY 4.0 & MIT</td>
+          </tr>
+          <tr>
+            <td><b>Q3</b></td>
+            <td>클래스에서 인스턴스가 생성될 때 자동 호출되는 초기화 메서드는?</td>
+            <td><span class="badge badge-emerald">2. __init__</span></td>
+            <td>Python Classes 튜토리얼 / CC BY 4.0 & MIT</td>
+          </tr>
+          <tr>
+            <td><b>Q4</b></td>
+            <td>Git에서 원격 저장소의 변경 사항을 가져와 로컬에 병합하는 명령어는?</td>
+            <td><span class="badge badge-emerald">3. git pull</span></td>
+            <td>Pro Git 공식 문서 / CC BY 4.0 & MIT</td>
+          </tr>
+          <tr>
+            <td><b>Q5</b></td>
+            <td>데이터를 '키-값(Key-Value)' 쌍의 텍스트로 표현하는 경량 교환 형식은?</td>
+            <td><span class="badge badge-emerald">1. JSON</span></td>
+            <td>RFC 8259 / ECMA-404 표준 / CC BY 4.0 & MIT</td>
+          </tr>
+          <tr>
+            <td><b>Q6</b></td>
+            <td>예외(오류)가 발생할 가능성이 있는 코드를 감싸 처리하는 키워드 조합은?</td>
+            <td><span class="badge badge-emerald">3. try / except</span></td>
+            <td>Python Errors 튜토리얼 / CC BY 4.0 & MIT</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="card card-highlight">
+        <div class="card-title">💡 모든 기본 문항에 힌트(<code class="inline">hint</code>) 속성 내장</div>
+        <p>단순 정답 맞히기를 넘어 학습 효과를 높이기 위해 각 문항에 배경지식 힌트(예: <i>"Initialize의 앞 글자에서 따온 던더 메서드입니다"</i>)를 함께 설계했습니다.</p>
+      </div>
+    </section>
+
+    <!-- SLIDE 3: OOP Architecture & Class Responsibility -->
+    <section class="slide" data-title="3. 클래스 설계">
+      <div class="slide-eyebrow">🏗️ OBJECT-ORIENTED ARCHITECTURE</div>
+      <h2 class="slide-title">왜 함수 기반 대신 객체지향(클래스) 설계를 선택했는가?</h2>
+      <p class="slide-subtitle">
+        단일 책임 원칙(SRP)에 따라 <b>도메인 모델(<code class="inline">Quiz</code>)</b>, <b>콘솔 제어(<code class="inline">QuizGame</code>)</b>, <b>영속성 I/O(<code class="inline">StateStorage</code>)</b>를 분리했습니다.
+      </p>
+
+      <div class="arch-flow">
+        <div class="arch-node">
+          <div class="card-title"><span class="badge badge-blue">main.py / game.py</span> QuizGame</div>
+          <p style="font-size: 0.83rem; color: #cbd5e1;">
+            • 게임 상태(<code class="inline">quizzes</code>, <code class="inline">best_score</code>, <code class="inline">history</code>) 캡슐화<br/>
+            • 공통 입력 검증(<code class="inline">get_valid_int</code>, <code class="inline">get_non_empty_str</code>)<br/>
+            • 메뉴 루프 및 풀기/추가/목록/점수/삭제 제어
+          </p>
+        </div>
+        <div class="arch-arrow">⇄</div>
+        <div class="arch-node">
+          <div class="card-title"><span class="badge badge-emerald">quiz.py</span> Quiz</div>
+          <p style="font-size: 0.83rem; color: #cbd5e1;">
+            • 생성 시점 불변식 검증(선택지 4개, 정답 1~4)<br/>
+            • <code class="inline">display(index)</code>: 문제·보기 포맷 출력<br/>
+            • <code class="inline">check_answer(ans) -> bool</code>: 정답 판정<br/>
+            • <code class="inline">to_dict()</code> / <code class="inline">from_dict()</code> 직렬화 인터페이스
+          </p>
+        </div>
+        <div class="arch-arrow">⇄</div>
+        <div class="arch-node">
+          <div class="card-title"><span class="badge badge-amber">storage.py</span> StateStorage</div>
+          <p style="font-size: 0.83rem; color: #cbd5e1;">
+            • <code class="inline">state.json</code> UTF-8 읽기/쓰기 전담<br/>
+            • 임시 파일 기록 후 <code class="inline">os.replace</code> 원자적 교체<br/>
+            • 손상 시 <code class="inline">.bak</code> 백업 생성 및 기본 데이터 복구
+          </p>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">⚖️ 함수 중심(절차 지향) vs 클래스 기반 설계 비교</div>
+          <ul>
+            <li><b>상태 캡슐화</b>: 전역 변수를 쓰거나 매 함수마다 <code class="inline">play(quizzes, score, history)</code>로 인자를 넘기는 대신 <code class="inline">self</code> 속성으로 일관되게 관리</li>
+            <li><b>무결성 보장</b>: 단순 <code class="inline">dict</code> 사용 시 오타 키(<code class="inline">"answr"</code>)를 막기 어렵지만, <code class="inline">Quiz.__init__</code>에서 생성 즉시 유효성을 강제 검증</li>
+            <li><b>입력 검증과 I/O 분리 이유</b>: 콘솔 UI 변경과 파일 포맷(JSON→DB) 변경이 서로 영향을 주지 않도록 결합도를 제거하고 격리된 단위 테스트를 가능케 함</li>
+          </ul>
+        </div>
+        <div>
+          <div class="terminal-header">
+            <div class="terminal-dots"><span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span></div>
+            <span class="terminal-header-">클래스 간 데이터 전달 인터페이스 예시</span>
+          </div>
+          <pre class="code-block terminal-body"><span style="color:#64748b"># 1. Dict -> Quiz 역직렬화 및 정답 확인</span>
+quiz = Quiz.from_dict({
+    "question": "Python의 창시자는?",
+    "choices": ["귀도", "리누스", "비야네", "제임스"],
+    "answer": 1, "hint": "네덜란드 출신"
+})
+is_ok: bool = quiz.check_answer(1)  <span style="color:#34d399"># True</span>
+
+<span style="color:#64748b"># 2. StateStorage <-> QuizGame 데이터 로드/저장</span>
+quizzes, best, detail, history = storage.load()
+saved: bool = storage.save(quizzes, best, detail, history)</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 4: Core + Bonus 5 Features -->
+    <section class="slide" data-title="4. 핵심 & 보너스 기능">
+      <div class="slide-eyebrow">✨ FEATURES & BONUS IMPLEMENTATION</div>
+      <h2 class="slide-title">필수 요구사항 6종 + 보너스 과제 5종 완벽 구현</h2>
+      <p class="slide-subtitle">
+        기본 명세를 충실히 구현하는 것에 그치지 않고, 사용자 경험(UX)을 높이는 보너스 과제 5가지를 모두 통합했습니다.
+      </p>
+
+      <div class="grid-3" style="margin-bottom: 18px;">
+        <div class="card card-highlight">
+          <div class="card-title"><span class="badge badge-blue">필수 1~2</span> 메뉴 루프 & 퀴즈 풀기</div>
+          <ul>
+            <li>1~6번 메뉴 선택 및 잘못된 선택 시 허용 범위·종료 번호(<code class="inline">5</code>) 친절 안내</li>
+            <li>풀기/추가/삭제 중 언제든 <code class="inline">0</code> 입력으로 <b>작업 취소 및 메뉴 복귀</b> 지원</li>
+            <li>정답/오답 즉시 판별 및 오답 시 실제 정답 번호와 보기 텍스트 안내</li>
+          </ul>
+        </div>
+        <div class="card card-highlight">
+          <div class="card-title"><span class="badge badge-blue">필수 3~4</span> 퀴즈 추가 & 목록 조회</div>
+          <ul>
+            <li>문제, 4개 선택지, 정답 번호(1~4), 선택적 힌트를 검증 후 등록</li>
+            <li>등록 즉시 <code class="inline">state.json</code>에 자동 저장 및 사용자 피드백 메시지 출력</li>
+            <li>전체 퀴즈 개수와 각 문제의 <code class="inline">[💡힌트 있음]</code> 배지 표시</li>
+          </ul>
+        </div>
+        <div class="card card-highlight">
+          <div class="card-title"><span class="badge badge-blue">필수 5~6</span> 최고 점수 & 영속성</div>
+          <ul>
+            <li>100점 만점 환산 점수 산출 및 최고 점수 달성 시 <code class="inline">🎉 새로운 최고 점수!</code> 갱신</li>
+            <li>아직 플레이 기록이 없을 때의 예외 안내 처리</li>
+            <li>프로그램 재시작 후에도 추가한 퀴즈와 최고 점수 100% 유지</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title"><span class="badge badge-emerald">보너스 1 · 2 · 3</span> 랜덤 출제 · 문제 수 선택 · 힌트 차감</div>
+          <ul>
+            <li><b>랜덤 출제</b>: <code class="inline">random.sample(self.quizzes, question_count)</code>로 매 게임마다 문제 순서를 무작위로 섞어 출제</li>
+            <li><b>문제 수 선택</b>: <code class="inline">1 ~ 전체 문제 수</code> 중 원하는 개수만 선택 가능 (그냥 Enter 입력 시 전체 문제 출제)</li>
+            <li><b>힌트 및 점수 차감</b>: 풀이 중 <code class="inline">0</code> 입력 시 힌트를 보여주며, 힌트 1회당 최종 점수에서 <b>5점 차감</b> (<code class="inline">max(0, raw_score - penalty)</code>)</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title"><span class="badge badge-amber">보너스 4 · 5</span> 퀴즈 삭제 & 플레이 기록 히스토리</div>
+          <ul>
+            <li><b>퀴즈 삭제 (메뉴 6번)</b>: 등록된 퀴즈 목록을 보고 번호를 선택해 삭제(<code class="inline">pop</code>)한 뒤 즉시 <code class="inline">state.json</code>에 반영</li>
+            <li><b>점수 기록 히스토리</b>: 최고 점수뿐 아니라 모든 플레이의 <b>일시(<code class="inline">YYYY-MM-DD HH:MM:SS</code>), 문제 수, 정답 수, 힌트 횟수, 최종 점수</b>를 <code class="inline">history</code> 배열에 누적 기록 및 출력</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 5: Interactive Demo & Screenshots -->
+    <section class="slide" data-title="5. 실행 화면 데모">
+      <div class="slide-eyebrow">🖥️ INTERACTIVE EXECUTION DEMO</div>
+      <h2 class="slide-title">통합 실행 화면 및 UI 흐름 테스트 증빙</h2>
+      <p class="slide-subtitle">아래 탭을 클릭하여 기능별 실제 실행 스크린샷(<code class="inline">docs/screenshots/*.png</code>)과 핵심 동작을 확인할 수 있습니다.</p>
+
+      <div class="demo-tabs">
+        <button class="demo-tab-btn active" onclick="switchDemoTab(0)">① 메뉴 & 입력 예외 처리</button>
+        <button class="demo-tab-btn" onclick="switchDemoTab(1)">② 퀴즈 풀기 & 힌트 차감</button>
+        <button class="demo-tab-btn" onclick="switchDemoTab(2)">③ 퀴즈 추가 & 목록 확인</button>
+        <button class="demo-tab-btn" onclick="switchDemoTab(3)">④ 점수 히스토리 & Ctrl+C 안전 종료</button>
+      </div>
+
+      <!-- Tab 0 -->
+      <div class="demo-panel active" id="demoPanel0">
+        <img src="docs/screenshots/menu.png" alt="메뉴 및 입력 예외 처리" class="screenshot-img" />
+        <div class="card">
+          <div class="card-title">🔍 메뉴 출력 및 방어적 입력 검증 포인트</div>
+          <ul>
+            <li>프로그램 시작 시 <code class="inline">state.json</code>에서 퀴즈 개수와 최고 점수를 불러와 상단에 표시합니다.</li>
+            <li>문자열(<code class="inline">abc</code>), 음수(<code class="inline">-1</code>), 범위 초과(<code class="inline">9</code>) 입력 시 <b>프로그램이 중단되지 않고</b> 원인을 구체적으로 안내한 뒤 재입력 프롬프트로 복귀합니다.</li>
+            <li>앞뒤 공백이 포함된 입력(<code class="inline">" 3 "</code>)도 <code class="inline">.strip()</code>으로 깔끔하게 정상 처리합니다.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Tab 1 -->
+      <div class="demo-panel" id="demoPanel1">
+        <img src="docs/screenshots/play.png" alt="퀴즈 풀기 및 힌트 사용" class="screenshot-img" />
+        <div class="card">
+          <div class="card-title">🎮 퀴즈 풀기 (랜덤 출제 + 문제 수 선택 + 힌트)</div>
+          <ul>
+            <li>출제할 문제 수(예: 2문제)를 지정하면 전체 퀴즈 중 무작위 2문제를 추출합니다.</li>
+            <li>문제 풀이 중 <code class="inline">0</code>을 입력하면 <code class="inline">💡 [힌트]</code>가 출력되며, 해당 문제에서는 중복 힌트 차감이 발생하지 않도록 방어되어 있습니다.</li>
+            <li>모든 문제를 풀면 기본 점수와 힌트 차감 내역, 최고 점수 갱신 여부를 한눈에 출력하고 즉시 저장합니다.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Tab 2 -->
+      <div class="demo-panel" id="demoPanel2">
+        <img src="docs/screenshots/add_quiz.png" alt="퀴즈 추가 및 목록 조회" class="screenshot-img" />
+        <div class="card">
+          <div class="card-title">➕ 새로운 퀴즈 등록 및 목록 확인</div>
+          <ul>
+            <li>사용자가 직접 문제와 4개의 보기, 정답 번호(1~4), 선택적 힌트를 입력해 나만의 퀴즈를 추가할 수 있습니다.</li>
+            <li>문제나 보기를 빈칸(Enter)으로 입력하면 재입력을 요청하며, <code class="inline">0</code>을 입력하면 등록을 취소할 수 있습니다.</li>
+            <li>추가 직후 <code class="inline">3. 퀴즈 목록</code>을 조회하면 7번째 문항이 즉시 등록·유지됨을 확인할 수 있습니다.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Tab 3 -->
+      <div class="demo-panel" id="demoPanel3">
+        <img src="docs/screenshots/score.png" alt="점수 확인 및 Ctrl+C 안전 종료" class="screenshot-img" />
+        <div class="card">
+          <div class="card-title">🏆 최고 점수·히스토리 & 비정상 종료 방어</div>
+          <ul>
+            <li>최고 점수와 달성 당시의 문제 수/정답 수를 함께 출력합니다.</li>
+            <li>역대 모든 플레이의 일시, 정답 수, 점수, 힌트 사용 횟수가 시계열 히스토리로 출력됩니다.</li>
+            <li>실행 도중 <code class="inline">Ctrl+C</code>(<code class="inline">KeyboardInterrupt</code>) 발생 시 Traceback 없이 현재 데이터를 안전하게 저장하고 종료합니다.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 6: Input Validation Edge Cases & Unit Tests -->
+    <section class="slide" data-title="6. 예외 처리 & 테스트">
+      <div class="slide-eyebrow">🛡️ DEFENSIVE PROGRAMMING & UNIT TESTS</div>
+      <h2 class="slide-title">입력 검증 경계 케이스 및 자동화 단위 테스트</h2>
+      <p class="slide-subtitle">
+        사용자 입력에서 발생할 수 있는 모든 예외 상황을 정의하고, Python 표준 <code class="inline">unittest</code> 모듈로 자동 검증했습니다.
+      </p>
+
+      <div class="grid-2">
+        <div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>경계 케이스 유형</th>
+                <th>입력값</th>
+                <th>처리 결과 및 복구 흐름</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><b>빈 입력 (Enter)</b></td>
+                <td><code class="inline">""</code></td>
+                <td>빈 입력 안내 출력 후 재입력 루프 (문제 수 선택 시 기본값 허용)</td>
+              </tr>
+              <tr>
+                <td><b>공백 문자열</b></td>
+                <td><code class="inline">"   "</code></td>
+                <td><code class="inline">.strip()</code> 제거 후 빈 입력으로 감지하여 재입력</td>
+              </tr>
+              <tr>
+                <td><b>앞뒤 공백 숫자</b></td>
+                <td><code class="inline">" 3 "</code></td>
+                <td>공백 제거 후 정상 정수 <code class="inline">3</code>으로 파싱 성공</td>
+              </tr>
+              <tr>
+                <td><b>일반 문자열</b></td>
+                <td><code class="inline">"abc"</code></td>
+                <td><code class="inline">ValueError</code> 포착 → 정수 입력 안내 후 재입력</td>
+              </tr>
+              <tr>
+                <td><b>부동소수점(실수)</b></td>
+                <td><code class="inline">"1.5"</code></td>
+                <td>소수점 불가 안내 메시지 출력 후 재입력</td>
+              </tr>
+              <tr>
+                <td><b>음수 및 범위 밖</b></td>
+                <td><code class="inline">"-1"</code>, <code class="inline">"9"</code></td>
+                <td>허용 범위(<code class="inline">min~max</code>) 이탈 안내 후 재입력</td>
+              </tr>
+              <tr>
+                <td><b>강제 종료 신호</b></td>
+                <td><code class="inline">Ctrl+C</code> / <code class="inline">EOF</code></td>
+                <td><code class="inline">KeyboardInterrupt</code>, <code class="inline">EOFError</code> 포착 → 즉시 파일 저장 후 안전 종료</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div>
+          <img src="docs/screenshots/env_setup.png" alt="단위 테스트 통과 화면" class="screenshot-img" style="margin-bottom: 12px;" />
+          <div class="card">
+            <div class="card-title"><span class="badge badge-emerald">5 / 5 PASS</span> <code class="inline">tests/test_quiz_game.py</code> 검증 항목</div>
+            <ul>
+              <li><code class="inline">test_get_valid_int_edge_cases</code>: 7종 비정상 입력 연속 주입 후 정상 복구 검증</li>
+              <li><code class="inline">test_corrupted_file_backup_and_recovery</code>: 손상 JSON 백업(<code class="inline">.bak</code>) 및 초기화 검증</li>
+              <li><code class="inline">test_keyboard_interrupt_safe_exit</code> & <code class="inline">test_eof_error_safe_exit</code>: 비정상 종료 시 저장 검증</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 7: JSON Storage Schema, Limits, Concurrency & Recovery -->
+    <section class="slide" data-title="7. JSON 영속성 & 한계">
+      <div class="slide-eyebrow">💾 DATA PERSISTENCE & RELIABILITY</div>
+      <h2 class="slide-title"><code class="inline">state.json</code> 설계 근거, 손상 복구 및 대규모 한계·대안</h2>
+      <p class="slide-subtitle">
+        단순히 파일을 읽고 쓰는 것을 넘어, <b>왜 중첩 JSON을 썼는지</b>, <b>파일이 깨지거나 충돌할 때 어떻게 보호하는지</b>까지 설계했습니다.
+      </p>
+
+      <div class="grid-3" style="margin-bottom: 18px;">
+        <div class="card">
+          <div class="card-title"><span class="badge badge-blue">설계 근거</span> JSON & 중첩 구조 선택 이유</div>
+          <ul>
+            <li><b>가독성 & 호환성</b>: 바이너리(<code class="inline">pickle</code>)와 달리 텍스트 에디터로 즉시 확인·수정이 가능하며 역직렬화 보안 취약점이 없음</li>
+            <li><b>중첩(Nested) 스키마 이점</b>: 단일 파일 내 문제(<code class="inline">quizzes</code>), 최고 기록(<code class="inline">best_detail</code>), 로그(<code class="inline">history</code>)의 네임스페이스를 분리해 스키마 확장성과 단일 I/O 로드 편의성 확보</li>
+          </ul>
+        </div>
+
+        <div class="card card-highlight">
+          <div class="card-title"><span class="badge badge-emerald">안정성</span> 원자적 저장·재시도·자동 백업</div>
+          <ul>
+            <li><b>원자적 교체(<code class="inline">os.replace</code>)</b>: <code class="inline">state.json.tmp</code>에 먼저 쓴 뒤 교체하여 쓰기 도중 강제 종료로 인한 파일 파손 방지</li>
+            <li><b>재시도 & 오프라인 유지</b>: 저장 실패 시 최대 2회 재시도 후 실패 시 인메모리 상태에서 게임 지속 보장</li>
+            <li><b>손상 파일 <code class="inline">.bak</code> 백업</b>: 파손 감지 시 덮어쓰기 전 <code class="inline">state.json.corrupted.TIMESTAMP.bak</code>으로 원본 보존 후 기본 6문제로 복구</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><span class="badge badge-rose">한계와 대안</span> JSON 방식의 한계 및 DB 전환</div>
+          <ul>
+            <li><b>성능·메모리 한계</b>: 1건만 추가해도 파일 전체를 다시 직렬화해야 하며, 수만 건 이상일 때 전체 메모리 적재 부담($O(N)$)과 인덱스 검색 불가 한계 발생</li>
+            <li><b>동시성 한계</b>: 다중 프로세스 동시 접근 시 경쟁 상태(Lost Update) 발생 가능</li>
+            <li><b>대안</b>: 대규모·다중 접속 환경에서는 표준 라이브러리 <code class="inline">sqlite3</code> 또는 PostgreSQL(RDBMS) 도입</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="terminal-header">
+        <div class="terminal-dots"><span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span></div>
+        <span class="terminal-header-">state.json 손상 감지 시 자동 백업 및 복구 콘솔 로그 ([INFO] / [WARN] / [ERROR] 정책)</span>
+      </div>
+      <pre class="code-block terminal-body">⚠️ [WARN] 데이터 파일이 손상되었거나 읽을 수 없습니다 (JSONDecodeError: Expecting property name enclosed in double quotes).
+📦 [WARN] 손상된 기존 파일을 백업했습니다: state.json.corrupted.20261110_193258.bak
+🔄 [INFO] 기본 퀴즈 데이터로 복구합니다.</pre>
+    </section>
+
+    <!-- SLIDE 8: Git Workflow, Branch Merge & Clone/Pull -->
+    <section class="slide" data-title="8. Git 워크플로우">
+      <div class="slide-eyebrow">🌿 GIT WORKFLOW & COLLABORATION</div>
+      <h2 class="slide-title">커밋 컨벤션, 브랜치 분기·병합 및 <code class="inline">clone</code> / <code class="inline">pull</code> 실습</h2>
+      <p class="slide-subtitle">
+        형식적인 커밋을 지양하고 기능 단위 원자적 커밋(17개), 기능 브랜치(<code class="inline">feat/play-quiz</code>) 병합, 복제·풀 실습까지 완료했습니다.
+      </p>
+
+      <div class="grid-2">
+        <div>
+          <img src="docs/screenshots/git_log.png" alt="Git 그래프 로그" class="screenshot-img" style="margin-bottom: 12px;" />
+          <div class="card">
+            <div class="card-title">📋 커밋 메시지 규칙 및 브랜치 전략</div>
+            <ul>
+              <li><b>컨벤션</b>: <code class="inline">Feat:</code>(기능), <code class="inline">Fix:</code>(수정/예외 보강), <code class="inline">Docs:</code>(문서), <code class="inline">Test:</code>(단위 테스트), <code class="inline">Chore:</code>(설정)</li>
+              <li><b>브랜치 전략</b>: <code class="inline">main</code>의 안정성을 유지하기 위해 <code class="inline">git checkout -b feat/play-quiz</code>로 독립 개발 후 <code class="inline">git merge --no-ff</code>로 병합 이력을 그래프에 보존</li>
+            </ul>
+          </div>
+        </div>
+
+        <div>
+          <img src="docs/screenshots/clone_pull.png" alt="clone 및 pull 실습" class="screenshot-img" style="margin-bottom: 12px;" />
+          <div class="card">
+            <div class="card-title">🔄 원격 저장소 <code class="inline">clone</code> & <code class="inline">pull</code> 실습 절차</div>
+            <ul>
+              <li><b>1단계 (<code class="inline">clone</code>)</b>: 별도 경로(<code class="inline">/tmp/codyssey-1-2-clone</code>)에 원격 저장소 복제</li>
+              <li><b>2단계 (<code class="inline">commit & push</code>)</b>: 복제본에서 클래스 역할 표 문서를 추가하고 원격 푸시</li>
+              <li><b>3단계 (<code class="inline">pull</code>)</b>: 본 작업 디렉터리에서 <code class="inline">git pull origin main</code>으로 변경사항 동기화 확인</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 9: Learning Goals Q&A Summary & Maintenance Checklist -->
+    <section class="slide" data-title="9. 학습 정리 & Q&A">
+      <div class="slide-eyebrow">🎓 MISSION OBJECTIVES & RETROSPECTIVE</div>
+      <h2 class="slide-title">과제 학습 목표 핵심 정리 및 유지보수 점검 체계</h2>
+      <p class="slide-subtitle">미션 완료 후 스스로 설명할 수 있어야 하는 4대 영역 핵심 요약과 요구사항 변경 대응 체계입니다.</p>
+
+      <div class="grid-2" style="margin-bottom: 16px;">
+        <div class="card">
+          <div class="card-title"><span class="badge badge-blue">Python 기초</span> 자료형 · 조건문 · 반복문 · 함수</div>
+          <ul>
+            <li><b>자료형 역할</b>: <code class="inline">int</code>(정답 번호·점수), <code class="inline">str</code>(문제·보기 텍스트), <code class="inline">bool</code>(정답 판별), <code class="inline">list</code>(순서 있는 선택지·퀴즈 목록), <code class="inline">dict</code>(키-값 기반 JSON 매핑)</li>
+            <li><b><code class="inline">for</code> vs <code class="inline">while</code></b>: 정해진 횟수(선택지 4개·출제 문제 순회)는 <code class="inline">for</code>, 종료 시점을 알 수 없는 메뉴 루프와 유효 입력 재시도는 <code class="inline">while True</code> 선택</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><span class="badge badge-indigo">클래스와 객체</span> <code class="inline">__init__</code>과 <code class="inline">self</code>의 역할</div>
+          <ul>
+            <li><b>클래스 사용 이유</b>: 관련 데이터(속성)와 기능(메서드)을 하나의 설계도로 묶어 코드 중복을 줄이고 책임을 명확히 분리하기 위함</li>
+            <li><b><code class="inline">__init__</code> & <code class="inline">self</code></b>: 인스턴스 생성 시 초기 속성을 설정하는 생성자 메서드이며, <code class="inline">self</code>는 생성된 인스턴스 자기 자신을 가리키는 참조</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><span class="badge badge-emerald">파일 입출력</span> UTF-8 JSON & <code class="inline">try / except</code></div>
+          <ul>
+            <li><b>파일 처리 과정</b>: 열기(<code class="inline">open</code> / <code class="inline">Path.read_text</code>) → 파싱(<code class="inline">json.loads</code>) → 직렬화 쓰기(<code class="inline">json.dumps</code>) → 닫기 자동화</li>
+            <li><b>예외 처리</b>: 파일 누락·권한 오류(<code class="inline">OSError</code>)와 문법 파손(<code class="inline">JSONDecodeError</code>)을 포착해 백업 후 기본 데이터로 안전 복구</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><span class="badge badge-amber">유지보수성</span> 요구사항 변경 시 점검 체크리스트</div>
+          <ul>
+            <li><b>5지선다 확장 시</b>: <code class="inline">Quiz.__init__</code> 검증 길이(4→5) 및 <code class="inline">QuizGame</code> 입력 범위(<code class="inline">1~5</code>)만 수정하면 저장소 코드는 무변경 유지</li>
+            <li><b>변경 후 필수 검증</b>: <code class="inline">python3 -m unittest discover -s tests -v</code> 실행으로 회귀 버그 즉시 점검</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card card-highlight" style="text-align: center; padding: 14px;">
+        <span style="font-size: 1rem; font-weight: 700; color: #ffffff;">
+          🎉 감사합니다! — <span style="color: var(--accent-blue);">Q&A 및 라이브 코드 데모</span> (<code class="inline">python3 main.py</code>)
+        </span>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Bottom Controls -->
+  <footer>
+    <div class="footer-hint">
+      <span>단축키 안내:</span>
+      <span><kbd class="kbd">←</kbd> <kbd class="kbd">→</kbd> 또는 <kbd class="kbd">Space</kbd> 슬라이드 이동</span>
+      <span><kbd class="kbd">1</kbd>~<kbd class="kbd">9</kbd> 번호 바로가기</span>
+      <span><kbd class="kbd">F</kbd> 전체화면</span>
+    </div>
+    <div class="controls">
+      <button class="btn-control" onclick="prevSlide()">◀ 이전</button>
+      <span class="slide-counter" id="slideCounter">1 / 9</span>
+      <button class="btn-control" onclick="nextSlide()">다음 ▶</button>
+    </div>
+  </footer>
+
+  <script>
+    const slides = Array.from(document.querySelectorAll('section.slide'));
+    const navPillsContainer = document.getElementById('navPills');
+    const progressBar = document.getElementById('progressBar');
+    const slideCounter = document.getElementById('slideCounter');
+    let currentIndex = 0;
+
+    // Initialize top navigation pills
+    slides.forEach((slide, idx) => {
+      const btn = document.createElement('button');
+      btn.className = 'nav-pill' + (idx === 0 ? ' active' : '');
+      btn.textContent = slide.dataset.title || `Slide ${idx + 1}`;
+      btn.onclick = () => goToSlide(idx);
+      navPillsContainer.appendChild(btn);
+    });
+
+    const pills = Array.from(navPillsContainer.querySelectorAll('.nav-pill'));
+
+    function goToSlide(index) {
+      if (index < 0 || index >= slides.length) return;
+      slides[currentIndex].classList.remove('active');
+      pills[currentIndex].classList.remove('active');
+
+      currentIndex = index;
+      slides[currentIndex].classList.add('active');
+      pills[currentIndex].classList.add('active');
+
+      const pct = ((currentIndex + 1) / slides.length) * 100;
+      progressBar.style.width = `${pct}%`;
+      slideCounter.textContent = `${currentIndex + 1} / ${slides.length}`;
+    }
+
+    function nextSlide() {
+      if (currentIndex < slides.length - 1) goToSlide(currentIndex + 1);
+    }
+
+    function prevSlide() {
+      if (currentIndex > 0) goToSlide(currentIndex - 1);
+    }
+
+    function switchDemoTab(tabIndex) {
+      const btns = document.querySelectorAll('.demo-tab-btn');
+      const panels = document.querySelectorAll('.demo-panel');
+      btns.forEach((b, i) => b.classList.toggle('active', i === tabIndex));
+      panels.forEach((p, i) => p.classList.toggle('active', i === tabIndex));
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        e.preventDefault();
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        e.preventDefault();
+        prevSlide();
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        goToSlide(0);
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        goToSlide(slides.length - 1);
+      } else if (e.key >= '1' && e.key <= '9') {
+        const target = parseInt(e.key, 10) - 1;
+        if (target < slides.length) goToSlide(target);
+      } else if (e.key === 'f' || e.key === 'F') {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen().catch(() => {});
+        } else {
+          document.exitFullscreen().catch(() => {});
+        }
+      }
+    });
+  </script>
+</body>
+</html>
