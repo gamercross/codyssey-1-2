@@ -1,4 +1,12 @@
-"""기본 제공되는 IT / 컴퓨터 과학 & Python 기초 상식 퀴즈 데이터 모듈."""
+"""기본 제공되는 IT / 컴퓨터 과학 & Python 기초 상식 퀴즈 데이터 모듈.
+
+- 제작자: gamercross (Codyssey Mission 1-2 직접 제작)
+- 출처 근거:
+  1~3, 6번 문제: Python 3 공식 문서 (https://docs.python.org/ko/3/)
+  4번 문제: Git 공식 문서 - Pro Git Book (https://git-scm.com/doc)
+  5번 문제: ECMA-404 / RFC 8259 JSON 표준 문서 (https://www.json.org/)
+- 라이선스: CC BY 4.0 / MIT License
+"""
 
 from quiz import Quiz
 

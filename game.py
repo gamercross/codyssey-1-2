@@ -29,7 +29,7 @@ class QuizGame:
         ) = self.storage.load()
 
     def save_state(self) -> bool:
-        """현재 퀴즈 및 점수 데이터를 저장소에 기록한다."""
+        """현재 퀴즈 및 점수 데이터를 저장소에 기록하고 성공 여부를 반환한다."""
         return self.storage.save(
             quizzes=self.quizzes,
             best_score=self.best_score,
@@ -46,8 +46,9 @@ class QuizGame:
     ) -> int:
         """공통 숫자 입력 검증 메서드.
 
-        - 앞뒤 공백 제거
-        - 빈 입력, 숫자 변환 실패, 범위 밖 숫자 입력 시 안내 메시지 출력 후 재입력
+        - 앞뒤 공백 제거 (.strip())
+        - 빈 입력, 부동소수점(예: 1.5), 문자열(예: abc), 음수/범위 밖 숫자 입력 시
+          구체적인 안내 메시지 출력 후 재입력 루프로 복귀
         """
         while True:
             raw = input(prompt).strip()
@@ -55,7 +56,8 @@ class QuizGame:
                 if allow_default is not None:
                     return allow_default
                 print(
-                    f"⚠️ 입력이 비어 있습니다. {min_val}~{max_val} 사이의 숫자를 입력하세요."
+                    f"⚠️ [입력 오류] 입력이 비어 있습니다. "
+                    f"{min_val}~{max_val} 사이의 정수를 입력하세요."
                 )
                 continue
 
@@ -63,13 +65,15 @@ class QuizGame:
                 value = int(raw)
             except ValueError:
                 print(
-                    f"⚠️ 잘못된 입력입니다. {min_val}~{max_val} 사이의 숫자를 입력하세요."
+                    f"⚠️ [입력 오류] '{raw}'은(는) 유효한 정수가 아닙니다(문자열·소수점 불가). "
+                    f"{min_val}~{max_val} 사이의 정수를 입력하세요."
                 )
                 continue
 
             if not min_val <= value <= max_val:
                 print(
-                    f"⚠️ 허용 범위를 벗어났습니다. {min_val}~{max_val} 사이의 숫자를 입력하세요."
+                    f"⚠️ [범위 오류] 입력하신 '{value}'은(는) 허용 범위({min_val}~{max_val})를 벗어났습니다. "
+                    f"다시 선택해주세요."
                 )
                 continue
 
@@ -104,13 +108,16 @@ class QuizGame:
             return
 
         total_available = len(self.quizzes)
-        print(f"\n📌 현재 등록된 퀴즈는 총 {total_available}문제입니다.")
+        print(f"\n📌 현재 등록된 퀴즈는 총 {total_available}문제입니다. (메뉴 복귀/취소: 0)")
         question_count = self.get_valid_int(
-            f"출제할 문제 수를 입력하세요 (1~{total_available}, Enter 입력 시 전체 {total_available}문제): ",
-            min_val=1,
+            f"출제할 문제 수를 입력하세요 (1~{total_available}, Enter=전체 {total_available}문제, 취소=0): ",
+            min_val=0,
             max_val=total_available,
             allow_default=total_available,
         )
+        if question_count == 0:
+            print("↩️ 퀴즈 풀기를 취소하고 메인 메뉴로 돌아갑니다.")
+            return
 
         selected_quizzes = random.sample(self.quizzes, question_count)
         print(f"\n📝 퀴즈를 시작합니다! (총 {question_count}문제 / 랜덤 출제)")
@@ -180,13 +187,17 @@ class QuizGame:
                 "score": final_score,
             }
         )
-        self.save_state()
+        if self.save_state():
+            print("💾 플레이 결과와 점수가 state.json에 저장되었습니다.")
         print("========================================")
 
     def add_quiz(self) -> None:
         """사용자로부터 문제, 선택지 4개, 정답 번호, 힌트를 입력받아 새 퀴즈를 등록한다."""
-        print("\n📌 새로운 퀴즈를 추가합니다.")
-        question = self.get_non_empty_str("문제를 입력하세요: ")
+        print("\n📌 새로운 퀴즈를 추가합니다. (취소하려면 문제 입력란에 '0' 입력)")
+        question = self.get_non_empty_str("문제를 입력하세요 (취소: 0): ")
+        if question == "0":
+            print("↩️ 퀴즈 추가를 취소하고 메인 메뉴로 돌아갑니다.")
+            return
 
         choices: list[str] = []
         for idx in range(1, 5):
@@ -203,8 +214,8 @@ class QuizGame:
             hint=hint,
         )
         self.quizzes.append(new_quiz)
-        self.save_state()
-        print("\n✅ 퀴즈가 추가되었습니다!")
+        if self.save_state():
+            print("\n✅ 퀴즈가 추가되고 state.json에 저장되었습니다!")
 
     def list_quizzes(self) -> None:
         """등록된 전체 퀴즈 목록을 출력한다."""
@@ -264,12 +275,12 @@ class QuizGame:
             max_val=len(self.quizzes),
         )
         if target_idx == 0:
-            print("↩️ 퀴즈 삭제를 취소했습니다.")
+            print("↩️ 퀴즈 삭제를 취소하고 메인 메뉴로 돌아갑니다.")
             return
 
         removed = self.quizzes.pop(target_idx - 1)
-        self.save_state()
-        print(f"\n🗑️ [{target_idx}] '{removed.question}' 퀴즈가 삭제되었습니다.")
+        if self.save_state():
+            print(f"\n🗑️ [{target_idx}] '{removed.question}' 퀴즈가 삭제되고 파일에 반영되었습니다.")
 
     def run(self) -> None:
         """게임 메인 루프를 실행한다."""
@@ -281,7 +292,7 @@ class QuizGame:
         try:
             while True:
                 self.display_menu()
-                choice = self.get_valid_int("선택: ", 1, 6)
+                choice = self.get_valid_int("메뉴 번호 선택 (1~6, 종료=5): ", 1, 6)
 
                 if choice == 1:
                     self.play_quiz()
@@ -298,6 +309,6 @@ class QuizGame:
                 elif choice == 6:
                     self.delete_quiz()
         except (KeyboardInterrupt, EOFError):
-            print("\n\n⚠️ 프로그램 종료 신호(Ctrl+C / EOF)가 감지되었습니다.")
+            print("\n\n⚠️ [INFO] 프로그램 종료 신호(Ctrl+C / EOF)가 감지되었습니다.")
             self.save_state()
-            print("💾 현재 데이터를 안전하게 저장하고 종료합니다. 감사합니다!")
+            print("💾 현재 데이터를 state.json에 안전하게 저장하고 종료합니다. 감사합니다!")
