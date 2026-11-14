@@ -8,6 +8,10 @@ __pycache__/
 venv/
 env/
 
+# Temporary & corrupted backup files
+*.tmp
+*.bak
+
 # IDE & OS files
 .vscode/
 .idea/
