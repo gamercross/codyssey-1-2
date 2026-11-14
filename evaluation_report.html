@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>Codyssey 1-2 평가문항(20개) 완벽 대비 가이드 & 증빙 자료</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 12mm 14mm;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      color: #0f172a;
+      background: #ffffff;
+      font-size: 9.5pt;
+      line-height: 1.52;
+    }
+
+    .page-break {
+      page-break-before: always;
+      break-before: page;
+    }
+
+    /* Cover Banner */
+    .cover-header {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 65%, #1d4ed8 100%);
+      color: #ffffff;
+      padding: 22px 26px;
+      border-radius: 14px;
+      margin-bottom: 16px;
+    }
+
+    .cover-badge {
+      display: inline-block;
+      background: #38bdf8;
+      color: #0f172a;
+      font-weight: 800;
+      font-size: 8pt;
+      padding: 3px 10px;
+      border-radius: 999px;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+    }
+
+    .cover-header h1 {
+      font-size: 19pt;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+
+    .cover-header p {
+      font-size: 9.5pt;
+      color: #cbd5e1;
+      line-height: 1.45;
+    }
+
+    .meta-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.16);
+      font-size: 8.2pt;
+    }
+
+    .meta-item b {
+      color: #38bdf8;
+      display: block;
+      font-size: 7.5pt;
+      text-transform: uppercase;
+    }
+
+    /* Section Header */
+    .section-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #0f172a;
+      color: #ffffff;
+      padding: 10px 16px;
+      border-radius: 10px;
+      margin-bottom: 12px;
+      margin-top: 6px;
+    }
+
+    .section-banner h2 {
+      font-size: 12.5pt;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pass-pill {
+      background: #10b981;
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 8pt;
+      padding: 3px 10px;
+      border-radius: 999px;
+    }
+
+    /* Question Card */
+    .qa-card {
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 11px 14px;
+      margin-bottom: 10px;
+      background: #f8fafc;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    .qa-question {
+      font-size: 10pt;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: flex-start;
+      gap: 7px;
+    }
+
+    .q-num {
+      background: #2563eb;
+      color: #ffffff;
+      font-size: 7.8pt;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 5px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .speech-box {
+      background: #eff6ff;
+      border-left: 3.5px solid #2563eb;
+      padding: 7px 11px;
+      border-radius: 0 6px 6px 0;
+      margin-bottom: 7px;
+      font-size: 9pt;
+      color: #1e3a8a;
+    }
+
+    .speech-box b {
+      color: #1d4ed8;
+    }
+
+    .detail-list {
+      padding-left: 16px;
+      font-size: 8.8pt;
+      color: #334155;
+    }
+
+    .detail-list li {
+      margin-bottom: 3px;
+    }
+
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8pt;
+      background: #e2e8f0;
+      color: #0f172a;
+      padding: 1px 5px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    pre.code-snippet {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 7.6pt;
+      line-height: 1.42;
+      background: #0f172a;
+      color: #e2e8f0;
+      padding: 8px 11px;
+      border-radius: 7px;
+      margin-top: 6px;
+      overflow-x: hidden;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    /* Tables */
+    table.eval-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 8.3pt;
+      margin-top: 6px;
+      margin-bottom: 4px;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+    }
+
+    table.eval-table th {
+      background: #1e293b;
+      color: #ffffff;
+      padding: 6px 9px;
+      text-align: left;
+      font-weight: 700;
+    }
+
+    table.eval-table td {
+      padding: 5px 9px;
+      border-bottom: 1px solid #e2e8f0;
+      color: #1e293b;
+      vertical-align: top;
+    }
+
+    /* Screenshot Grid */
+    .shot-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .shot-box {
+      border: 1px solid #cbd5e1;
+      border-radius: 7px;
+      padding: 5px;
+      background: #ffffff;
+      text-align: center;
+    }
+
+    .shot-box img {
+      width: 100%;
+      border-radius: 4px;
+      display: block;
+    }
+
+    .shot-caption {
+      font-size: 7.5pt;
+      color: #475569;
+      margin-top: 3px;
+      font-weight: 600;
+    }
+
+    .flow-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .flow-step {
+      background: #ffffff;
+      border: 1px solid #93c5fd;
+      border-radius: 6px;
+      padding: 6px 8px;
+      font-size: 8pt;
+    }
+
+    .flow-step b {
+      display: block;
+      color: #1d4ed8;
+      margin-bottom: 2px;
+      font-size: 8.2pt;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== PAGE 1: 항목 1 (기능 동작 검증 1~4) ==================== -->
+  <div class="cover-header">
+    <span class="cover-badge">CODYSSEY MISSION 1-2 · EVALUATION MASTER GUIDE</span>
+    <h1>🎯 나만의 퀴즈 게임 — 4대 평가항목(20문항) 완벽 대비서</h1>
+    <p>기능 동작 검증 · 코드 구조 및 설계 · 핵심 기술 원리 적용 · 심층 인터뷰까지 모든 평가 체크리스트에 대한 구술 모범 답안과 코드/실행 증빙 자료입니다.</p>
+    <div class="meta-bar">
+      <div class="meta-item"><b>GitHub 저장소</b>github.com/gamercross/codyssey-1-2</div>
+      <div class="meta-item"><b>Pull Request</b>pull/1 (feat/quiz-game → main)</div>
+      <div class="meta-item"><b>핵심 클래스 구조</b>Quiz · StateStorage · QuizGame</div>
+      <div class="meta-item"><b>개발/검증 환경</b>Python 3.10+ (3.14.4) / UTF-8 JSON</div>
+    </div>
+  </div>
+
+  <div class="section-banner">
+    <h2>항목 1. 기능 동작 검증 (Functional Verification — 7개 문항)</h2>
+    <span class="pass-pill">7 / 7 PASS</span>
+  </div>
+
+  <!-- Q1-1 -->
+  <div class="qa-card">
+    <div class="qa-question">
+      <span class="q-num">문항 1-1</span>
+      <span>프로그램 실행 시 메뉴가 정상적으로 표시되고, 퀴즈 풀기/추가/목록/점수 확인 기능이 모두 동작하는가?</span>
+    </div>
+    <div class="speech-box">
+      <b>🗣️ 핵심 답변:</b> "네, <code>python3 main.py</code> 실행 시 <code>QuizGame.run()</code>에서 <code>display_menu()</code>를 호출해 1~6번 메뉴를 출력하며, 1번(퀴즈 풀기), 2번(퀴즈 추가), 3번(퀴즈 목록), 4번(점수 및 히스토리 확인), 5번(안전 종료), 6번(보너스: 퀴즈 삭제)이 모두 독립된 메서드로 정상 동작합니다."
+    </div>
+    <ul class="detail-list">
+      <li><b>코드 위치:</b> <code>game.py</code>의 <code>QuizGame.display_menu()</code>, <code>play_quiz()</code>, <code>add_quiz()</code>, <code>list_quizzes()</code>, <code>show_scores()</code>, <code>delete_quiz()</code></li>
+      <li><b>보너스 기능 통합:</b> 랜덤 출제(<code>random.sample</code>), 출제 문제 수 선택, 힌트 보기(<code>0</code> 입력 시 힌트 제공 및 5점 차감), 퀴즈 삭제, 플레이 기록 히스토리까지 모두 동작합니다.</li>
+    </ul>
+    <div class="shot-grid">
+      <div class="shot-box">
+        <img src="docs/screenshots/menu.png" alt="메뉴 화면" />
+        <div class="shot-caption">▲ 메뉴 표시 및 입력 예외 방어 실행 화면</div>
+      </div>
+      <div class="shot-box">
+        <img src="docs/screenshots/play.png" alt="퀴즈 풀기 화면" />
+        <div class="shot-caption">▲ 1번 퀴즈 풀기(랜덤 출제·힌트 차감·점수 산출) 실행 화면</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q1-2 -->
+  <div class="qa-card">
+    <div class="qa-question">
+      <span class="q-num">문항 1-2</span>
+      <span>퀴즈 풀기 시 정답/오답 판정이 정확하고, 최소 입력 오류 케이스(공백/문자/범위 밖/빈 입력)에 대한 처리가 되어 있는가?</span>
+    </div>
+    <div class="speech-box">
+      <b>🗣️ 핵심 답변:</b> "정답 판정은 <code>Quiz.check_answer(user_answer)</code>에서 <code>self.answer == user_answer</code>로 정확히 비교하며, 모든 숫자 입력은 공통 메서드 <code>QuizGame.get_valid_int()</code>를 거쳐 앞뒤 공백, 빈 입력, 문자, 소수점, 음수, 범위 밖 숫자를 모두 걸러내고 안내 메시지 출력 후 재입력을 받습니다."
+    </div>
+    <table class="eval-table">
+      <thead>
+        <tr>
+          <th style="width: 18%;">오류 케이스</th>
+          <th style="width: 15%;">입력 예시</th>
+          <th>처리 방식 (<code>game.py > QuizGame.get_valid_int</code>)</th>
+          <th style="width: 24%;">단위 테스트 검증</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>앞뒤 공백 포함</b></td>
+          <td><code>" 3 "</code></td>
+          <td><code>input(prompt).strip()</code>으로 공백 제거 후 정상 숫자 <code>3</code>으로 처리</td>
+          <td><code>test_get_valid_int_edge_cases</code></td>
+        </tr>
+        <tr>
+          <td><b>빈 입력 (Enter)</b></td>
+          <td><code>""</code>, <code>"   "</code></td>
+          <td><code>if not raw:</code> 분기에서 감지 → 빈 입력 안내 출력 후 <code>continue</code> 재입력</td>
+          <td><code>test_get_valid_int_edge_cases</code></td>
+        </tr>
+        <tr>
+          <td><b>문자 / 소수점</b></td>
+          <td><code>"abc"</code>, <code>"1.5"</code></td>
+          <td><code>int(raw)</code> 변환 시 <code>ValueError</code> 포착 → 유효한 정수 안내 후 재입력</td>
+          <td><code>test_get_valid_int_edge_cases</code></td>
+        </tr>
+        <tr>
+          <td><b>범위 밖 숫자</b></td>
+          <td><code>"-1"</code>, <code>"0"</code>, <code>"9"</code></td>
+          <td><code>if not min_val &lt;= value &lt;= max_val:</code> 검사 → 허용 범위 안내 후 재입력</td>
+          <td><code>test_get_valid_int_edge_cases</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Q1-3 & Q1-4 -->
+  <div class="qa-card">
+    <div class="qa-question">
+      <span class="q-num">문항 1-3 · 1-4</span>
+      <span>프로그램 종료 후 재실행해도 추가한 퀴즈와 최고 점수가 유지되는가? 기본 퀴즈가 5개 이상 포함되어 있는가?</span>
+    </div>
+    <div class="speech-box">
+      <b>🗣️ 핵심 답변:</b> "네, 퀴즈 추가·삭제·플레이 직후와 종료 시마다 프로젝트 루트의 <code>state.json</code>에 UTF-8로 즉시 저장하므로 재실행 시 그대로 유지됩니다. 또한 <code>default_data.py</code>에 IT·Python·Git 기초 상식 기본 퀴즈 6문제를 `Quiz` 인스턴스로 기본 탑재하여 5개 이상 조건을 충족했습니다."
+    </div>
+    <div class="shot-grid">
+      <div class="shot-box">
+        <img src="docs/screenshots/add_quiz.png" alt="퀴즈 추가 및 목록" />
+        <div class="shot-caption">▲ 2번 퀴즈 추가 후 3번 목록에서 7번째 퀴즈 유지 확인</div>
+      </div>
+      <div class="shot-box">
+        <img src="docs/screenshots/score.png" alt="점수 확인 및 종료" />
+        <div class="shot-caption">▲ 4번 최고 점수(95점) 및 플레이 히스토리 영구 유지 확인</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PAGE 2: 항목 1 (5~7) & 항목 2 (코드 구조 및 설계) ==================== -->
+  <div class="page-break"></div>
+
+  <!-- Q1-5, Q1-6, Q1-7 -->
+  <div class="qa-card">
+    <div class="qa-question">
+      <span class="q-num">문항 1-5 · 1-6 · 1-7</span>
+      <span>GitHub 업로드 및 10개 이상 의미 있는 커밋, 브랜치 생성/병합 그래프(<code>git log --oneline --graph</code>), <code>clone</code> & <code>pull</code> 실습 증빙이 확인되는가?</span>
+    </div>
+    <div class="speech-box">
+      <b>🗣️ 핵심 답변:</b> "원격 저장소(<code>https://github.com/gamercross/codyssey-1-2</code>)에 총 18개의 기능 단위 커밋을 업로드했으며, <code>feat/play-quiz</code> 브랜치를 분기하여 퀴즈 풀기 기능을 구현한 뒤 <code>git merge --no-ff</code>로 병합하여 그래프에 기록을 남겼습니다. 또한 별도 폴더에 <code>git clone</code> 후 문서를 수정해 <code>push</code>하고 본 저장소에서 <code>git pull</code>로 동기화하는 실습을 완료했습니다."
+    </div>
+    <div class="shot-grid">
+      <div class="shot-box">
+        <img src="docs/screenshots/git_log.png" alt="git log graph" />
+        <div class="shot-caption">▲ git log --oneline --graph --all (커밋 및 브랜치 병합 그래프)</div>
+      </div>
+      <div class="shot-box">
+        <img src="docs/screenshots/clone_pull.png" alt="clone and pull" />
+        <div class="shot-caption">▲ git clone → commit & push → git pull 실습 터미널 증빙</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-banner">
+    <h2>항목 2. 코드 구조 및 설계 (Architecture & Design — 5개 문항)</h2>
+    <span class="pass-pill">5 / 5 PASS</span>
+  </div>
+
+  <!-- Q2-1 & Q2-2 -->
+  <div class="qa-card">
+    <div class="qa-question">
+      <span class="q-num">문항 2-1 · 2-2</span>
+      <span>클래스들의 책임을 어떻게 나눴으며, “입력 처리(검증)”, “게임 진행”, “데이터 저장/불러오기” 로직을 어떤 기준으로 분리했는가?</span>
+    </div>
+    <div class="speech-box">
+      <b>🗣️ 핵심 답변:</b> "<b>단일 책임 원칙(SRP, Single Responsibility Principle)</b> 즉 <b>'코드가 변경되어야 하는 이유'</b>를 기준으로 3개의 클래스로 분리했습니다. ① 퀴즈 한 문제의 데이터와 정답 판정은 <code>Quiz</code>, ② 파일 입출력과 손상 복구는 <code>StateStorage</code>, ③ 콘솔 메뉴 흐름과 사용자 입력 검증은 <code>QuizGame</code>이 전담합니다."
+    </div>
+    <table class="eval-table">
+      <thead>
+        <tr>
+          <th style="width: 18%;">분리 영역</th>
+          <th style="width: 22%;">담당 클래스 및 파일</th>
+          <th>핵심 메서드 및 분리 기준(설계 근거)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>① 도메인 모델</b></td>
+          <td><code>Quiz</code> (<code>quiz.py</code>)</td>
+          <td><code>display()</code>, <code>check_answer()</code>, <code>to_dict()</code>, <code>from_dict()</code> — 개별 문제의 속성(질문, 4개 선택지, 정답, 힌트)과 무결성 검증만 담당</td>
+        </tr>
+        <tr>
+          <td><b>② 입력 처리(검증)</b></td>
+          <td><code>QuizGame</code> 정적 메서드 (<code>game.py</code>)</td>
+          <td><code>get_valid_int()</code>, <code>get_non_empty_str()</code> — 메뉴 선택, 정답 입력, 문제 수 선택 등 모든 곳에서 중복 없이 동일한 예외 기준을 재사용하기 위해 분리</td>
+        </tr>
+        <tr>
+          <td><b>③ 게임 진행 제어</b></td>
+          <td><code>QuizGame</code> 인스턴스 메서드 (<code>game.py</code>)</td>
+          <td><code>run()</code>, <code>play_quiz()</code>, <code>add_quiz()</code>, <code>list_quizzes()</code>, <code>show_scores()</code>, <code>delete_quiz()</code> — 게임 상태(목록, 최고 점수, 히스토리)와 비즈니스 흐름 관리</td>
+        </tr>
+        <tr>
+          <td><b>④ 데이터 저장/로드</b></td>
+          <td><code>StateStorage</code> (<code>storage.py</code>)</td>
+          <td><code>load()</code>, <code>save()</code>, <code>backup_corrupted_file()</code> — 향후 JSON 파일 대신 SQLite DB 등으로 저장 매체가 바뀌어도 게임 로직(<code>game.py</code>)을 전혀 수정하지 않도록 분리</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Q2-3 -->
+  <div class="qa-card">
+    <div class="qa-question">
+      <span class="q-num">문항 2-3</span>
+      <span><code>state.json</code> 읽기/쓰기 흐름이 프로그램의 어디에서, 어떤 순서로 발생하는지 설명할 수 있는가?</span>
+    </div>
+    <div class="speech-box">
+      <b>🗣️ 핵심 답변:</b> "<b>읽기(Load)</b>는 프로그램 시작 직후 <code>QuizGame.run()</code> 첫 단계에서 딱 한 번 발생하여 메모리에 적재하며, <b>쓰기(Save)</b>는 상태가 변경되는 즉시(퀴즈 풀기 완료, 퀴즈 추가, 퀴즈 삭제) 그리고 프로그램 종료 시점(5번 정상 종료 또는 <code>Ctrl+C</code>/<code>EOF</code> 감지 시)에 호출되어 데이터 유실을 원천 차단합니다."
+    </div>
+    <div class="flow-steps">
+      <div class="flow-step">
+        <b>① 시작 시 읽기 (Load)</b>
+        <code>main() → game.run() → load_state() → storage.load()</code><br/>
+        • 파일 있으면 파싱 후 적재<br/>
+        • 없거나 손상 시 기본 6문제로 초기화 후 즉시 <code>save()</code>
+      </div>
+      <div class="flow-step">
+        <b>② 상태 변경 시 즉시 쓰기</b>
+        • <code>play_quiz()</code> 결과 산출 직후<br/>
+        • <code>add_quiz()</code> 새 문항 추가 직후<br/>
+        • <code>delete_quiz()</code> 문항 삭제 직후<br/>
+        → <code>self.save_state()</code> 호출
+      </div>
+      <div class="flow-step">
+        <b>③ 원자적 파일 교체</b>
+        <code>storage.save()</code> 내부:<br/>
+        1) <code>json.dumps()</code> 직렬화<br/>
+        2) <code>state.json.tmp</code> 기록<br/>
+        3) <code>os.replace()</code>로 원본 교체
+      </div>
+      <div class="flow-step">
+        <b>④ 종료 시 최종 쓰기</b>
+        • 메뉴 <code>5. 종료</code> 선택 시<br/>
+        • <code>KeyboardInterrupt</code> / <code>EOFError</code> 예외 발생 시<br/>
+        → <code>save_state()</code> 후 종료
+      </div>
+    </div>
+  </div>
+
+  <!-- Q2-4 & Q2-5 -->
+  <div class="qa-card">
+    <div class="qa-question">
+      <span class="q-num">문항 2-4 · 2-5</span>
+      <span><code>Ctrl+C</code> 또는 <code>EOF</code> 안전 종료 처리와, 커밋 단위 및 커밋 메시지 규칙을 어떻게 정했는지 설명할 수 있는가?</span>
+    </div>
+    <div class="speech-box">
+      <b>🗣️ 핵심 답변:</b> "① <code>QuizGame.run()</code>의 전체 <code>while True</code> 루프를 <code>try ... except (KeyboardInterrupt, EOFError):</code>로 감싸서 언제 강제 종료 신호가 들어와도 안내 메시지를 출력하고 <code>self.save_state()</code>를 호출해 안전하게 종료합니다. ② Git 커밋은 '하나의 독립된 기능/목적' 단위로 쪼개어 <code>Feat:</code>, <code>Fix:</code>, <code>Docs:</code>, <code>Test:</code>, <code>Chore:</code> 접두사 컨벤션을 적용했습니다."
+    </div>
+    <pre class="code-snippet"># game.py > QuizGame.run() 안전 종료 구현 코드
+try:
+    while True:
+        self.display_menu()
+        choice = self.get_valid_int("메뉴 번호 선택 (1~6, 종료=5): ", 1, 6)
+        ...
+except (KeyboardInterrupt, EOFError):
+    print("\n\n⚠️ [INFO] 프로그램 종료 신호(Ctrl+C / EOF)가 감지되었습니다.")
+    self.save_state()  # 비정상 종료 시에도 현재 메모리 상태를 state.json에 안전 저장
+    print("💾 현재 데이터를 state.json에 안전하게 저장하고 종료합니다. 감사합니다!")</pre>
+  </div>
+
+  <!-- ==================== PAGE 3: 항목 3 (핵심 기술 원리 적용) ==================== -->
+  <div class="page-break"></div>
+
+  <div class="section-banner">
+    <h2>항목 3. 핵심 기술 원리 적용 (Core Technical Principles — 5개 문항)</h2>
+    <span class="pass-pill">5 / 5 PASS</span>
+  </div>
+
+  <!-- Q3-1 -->
+  <div class="qa-card">
+    <div class="qa-question">
+      <span class="q-num">문항 3-1</span>
+      <span>클래스를 사용한 이유는 무엇이며, 함수만으로 구현할 때와 어떤 차이가 있는지 설명할 수 있는가?</span>
+    </div>
+    <div class="speech-box">
+      <b>🗣️ 핵심 답변:</b> "함수만으로(절차 지향) 구현하면 퀴즈 목록이나 최고 점수를 전역 변수로 관리하거나 모든 함수의 매개변수(<code>play(quizzes, best_score, history)</code>)로 매번 넘겨야 하고, 퀴즈 데이터를 단순 딕셔너리로 다루다 키 오타가 나기 쉽습니다. 반면 클래스를 사용하면 <b>관련 데이터(속성)와 기능(메서드)을 하나의 객체로 캡슐화</b>하고, <code>__init__</code> 생성 시점에 데이터 유효성(선택지 4개, 정답 1~4)을 강제할 수 있어 유지보수성과 안정성이 크게 높아집니다."
+    </div>
+    <table class="eval-table">
+      <thead>
+        <tr>
+          <th style="width: 20%;">비교 항목</th>
+          <th style="width: 40%;">함수만으로 구현할 때 (절차 지향)</th>
+          <th style="width: 40%;">클래스로 구현할 때 (객체 지향 — 본 프로젝트)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>상태(State) 공유</b></td>
+          <td><code>global</code> 변수를 쓰거나 모든 함수에 인자로 계속 전달하고 반환받아야 함</td>
+          <td><code>self.quizzes</code>, <code>self.best_score</code> 인스턴스 속성으로 캡슐화하여 깔끔하게 접근</td>
+        </tr>
+        <tr>
+          <td><b>데이터 무결성</b></td>
+          <td>단순 <code>dict</code> 사용 시 <code>quiz["answr"]</code> 같은 키 오타나 보기 개수 누락 방어 어려움</td>
+          <td><code>Quiz.__init__</code>에서 생성 즉시 선택지 4개·정답 1~4 불변식(Invariant) 검증</td>
+        </tr>
+        <tr>
+          <td><b>확장 및 테스트</b></td>
+          <td>전역 상태를 공유하면 단위 테스트 시 테스트 간 데이터 오염 발생</td>
+          <td>테스트마다 <code>QuizGame(state_path=임시경로)</code> 인스턴스를 독립 생성해 완벽 격리</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Q3-2 & Q3-3 -->
+  <div class="qa-card">
+    <div class="qa-question">
+      <span class="q-num">문항 3-2 · 3-3</span>
+      <span>JSON 파일로 데이터를 저장하는 이유와 특징은 무엇이며, 파일 입출력에서 <code>try/except</code>가 필요한 이유(실패 케이스 포함)는 무엇인가?</span>
+    </div>
+    <div class="speech-box">
+      <b>🗣️ 핵심 답변:</b> "① JSON은 텍스트 기반의 '키-값(Key-Value)' 표준 포맷이라 <b>사람이 직접 열어 읽고 디버깅하기 쉽고(가독성)</b>, Python의 <code>dict</code>/<code>list</code>와 1:1로 매핑되며 언어·OS 호환성이 뛰어납니다. ② 파일 입출력은 외부 환경(디스크/OS/사용자 편집)에 의존하므로 언제든 실패할 수 있어 <code>try/except</code>로 예외를 잡아야 프로그램이 크래시되지 않고 기본 데이터로 복구할 수 있습니다."
+    </div>
+    <ul class="detail-list">
+      <li><b>발생 가능한 4대 파일 입출력 실패 케이스 (<code>storage.py</code>에서 모두 처리):</b>
+        <ol style="padding-left: 18px; margin-top: 3px;">
+          <li><b>파일 미존재 (<code>FileNotFoundError</code> / <code>not exists()</code>)</b>: 최초 실행 시 또는 사용자가 파일을 삭제한 경우 → 기본 퀴즈 6문제로 새 파일 생성</li>
+          <li><b>JSON 문법 파손 (<code>json.JSONDecodeError</code>)</b>: 사용자가 <code>state.json</code>을 수동 편집하다 쉼표·괄호를 빠뜨리거나 빈 파일이 된 경우 → <code>.bak</code> 백업 후 초기화</li>
+          <li><b>스키마/타입 불일치 (<code>ValueError</code>, <code>TypeError</code>)</b>: JSON 문법은 맞지만 <code>answer: 9</code>처럼 허용 범위를 벗어난 데이터가 들어있는 경우 → 검증 후 복구</li>
+          <li><b>OS/디스크 권한 및 용량 오류 (<code>OSError</code>, <code>PermissionError</code>)</b>: 읽기/쓰기 권한이 없거나 디스크가 가득 찬 경우 → 최대 2회 재시도 후 인메모리 유지 안내</li>
+        </ol>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Q3-4 & Q3-5 -->
+  <div class="qa-card">
+    <div class="qa-question">
+      <span class="q-num">문항 3-4 · 3-5</span>
+      <span>브랜치를 분리해 작업한 이유와 병합(<code>merge</code>)의 의미는 무엇이며, <code>state.json</code> 데이터 구조를 현재 형태로 설계한 이유는 무엇인가?</span>
+    </div>
+    <div class="speech-box">
+      <b>🗣️ 핵심 답변:</b> "① <b>브랜치 분리와 병합</b>: <code>main</code> 브랜치는 언제나 정상 실행 가능한 안정 상태로 유지하고, 복잡한 기능(<code>feat/play-quiz</code>)은 독립된 브랜치에서 안전하게 개발·검증한 뒤 <code>merge</code>를 통해 검증된 변경 이력을 다시 하나로 합치기 위함입니다. ② <b><code>state.json</code> 중첩 구조 설계 이유</b>: 단일 파일 안에서 도메인 성격이 다른 3가지 데이터(문제 목록 <code>quizzes</code>, 최고 기록 요약 <code>best_score/best_detail</code>, 시계열 플레이 로그 <code>history</code>)의 네임스페이스를 계층적으로 분리하여 가독성과 스키마 확장성을 확보하기 위함입니다."
+    </div>
+    <pre class="code-snippet">{
+    "quizzes": [ { "question": "...", "choices": ["...", "...", "...", "..."], "answer": 1, "hint": "..." } ],
+    "best_score": 95,
+    "best_detail": { "correct": 2, "total": 2 },
+    "history": [ { "played_at": "2026-11-10 19:32:45", "total": 2, "correct": 2, "hints_used": 1, "score": 95 } ]
+}</pre>
+  </div>
+
+  <!-- ==================== PAGE 4: 항목 4 (심층 인터뷰 3문항) ==================== -->
+  <div class="page-break"></div>
+
+  <div class="section-banner">
+    <h2>항목 4. 심층 인터뷰 (Deep Technical Interview — 3개 문항)</h2>
+    <span class="pass-pill">3 / 3 PASS</span>
+  </div>
+
+  <!-- Q4-1 -->
+  <div class="qa-card">
+    <div class="qa-question">
+      <span class="q-num">문항 4-1</span>
+      <span>퀴즈 데이터가 1,000개(또는 수만 개) 이상으로 늘어난다면 현재 JSON 저장 방식에 어떤 한계가 생길 수 있으며 대안은 무엇인가?</span>
+    </div>
+    <div class="speech-box">
+      <b>🗣️ 핵심 답변:</b> "현재 단일 JSON 파일 방식은 크게 <b>① 전체 파일 재작성(I/O) 비효율, ② 전체 메모리 적재 부담, ③ 인덱스 기반 조건 검색 불가, ④ 동시 쓰기(Concurrency) 충돌</b>이라는 4가지 한계가 발생합니다. 데이터가 커지면 Python 표준 라이브러리의 <b>SQLite(<code>sqlite3</code>)</b>나 RDBMS로 전환해야 합니다."
+    </div>
+    <table class="eval-table">
+      <thead>
+        <tr>
+          <th style="width: 22%;">한계 영역</th>
+          <th style="width: 43%;">단일 JSON 파일 방식의 문제점</th>
+          <th style="width: 35%;">해결 대안 (SQLite / RDBMS 도입)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>1. 쓰기 I/O 성능 저하</b></td>
+          <td>퀴즈 1개를 추가하거나 점수 1번만 갱신해도 1,000개 전체 데이터를 처음부터 끝까지 직렬화(<code>json.dumps</code>)하여 덮어써야 함 ($O(N)$ I/O)</td>
+          <td><code>INSERT INTO quizzes ...</code> 또는 <code>UPDATE</code> 쿼리로 변경된 행(Row)만 디스크에 기록 ($O(1)$ 또는 $O(\log N)$)</td>
+        </tr>
+        <tr>
+          <td><b>2. 메모리 사용량 증가</b></td>
+          <td>게임 시작 시 <code>json.loads()</code>로 모든 문제와 수만 건의 히스토리를 한꺼번에 RAM에 올려야 함</td>
+          <td>출제할 문제 수만큼만 <code>SELECT * FROM quizzes ORDER BY RANDOM() LIMIT 5</code>로 필요한 데이터만 페이징 조회</td>
+        </tr>
+        <tr>
+          <td><b>3. 검색/필터링 비효율</b></td>
+          <td>특정 난이도나 카테고리 문제만 찾으려면 전체 리스트를 순차 탐색(Full Scan)해야 함</td>
+          <td>B-Tree 인덱스를 생성하여 조건별 고속 검색 지원</td>
+        </tr>
+        <tr>
+          <td><b>4. 동시성 제어 한계</b></td>
+          <td>여러 사용자가 동시에 실행해 저장하면 나중에 저장한 파일이 이전 변경을 덮어쓰는 Lost Update 발생</td>
+          <td>DB 트랜잭션(ACID) 및 Row/Table Lock으로 동시성 보장</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Q4-2 -->
+  <div class="qa-card">
+    <div class="qa-question">
+      <span class="q-num">문항 4-2</span>
+      <span>만약 <code>state.json</code>이 손상되어 JSON 파싱에 실패한다면, 사용자가 데이터를 잃지 않도록 어떤 대응(복구/백업/초기화)이 가능한가?</span>
+    </div>
+    <div class="speech-box">
+      <b>🗣️ 핵심 답변:</b> "단순히 기본 데이터로 덮어써버리면 사용자가 직접 등록했던 소중한 퀴즈들이 영구 삭제됩니다. 그래서 본 프로젝트의 <code>StateStorage</code>는 <b>① 임시 파일 기록 후 원자적 교체(<code>os.replace</code>)로 손상을 예방</b>하고, <b>② 파손 감지 시 원본을 <code>state.json.corrupted.타임스탬프.bak</code>으로 자동 백업한 뒤 기본 퀴즈로 초기화</b>하여 데이터 보존과 서비스 연속성을 동시에 달성했습니다."
+    </div>
+    <ul class="detail-list">
+      <li><b>1단계 (예방 — Atomic Write)</b>: <code>StateStorage.save()</code>는 <code>state.json</code>에 직접 쓰지 않고 <code>state.json.tmp</code>에 먼저 기록한 뒤 <code>os.replace()</code>로 교체합니다. 쓰기 도중 정전이나 강제 종료가 발생해도 기존 <code>state.json</code>은 온전히 보존됩니다.</li>
+      <li><b>2단계 (보존 — Corrupted File Backup)</b>: <code>StateStorage.load()</code>에서 파싱 실패 시 <code>backup_corrupted_file()</code>을 호출해 손상된 원본을 <code>state.json.corrupted.YYYYMMDD_HHMMSS.bak</code>으로 복사 보존합니다.</li>
+      <li><b>3단계 (복구 및 수동 복원)</b>: 프로그램은 즉시 기본 퀴즈 6문제로 초기화되어 멈추지 않고 실행되며, 사용자는 백업된 <code>.bak</code> 파일의 오타(쉼표 등)만 고쳐서 언제든 기존 데이터를 되살릴 수 있습니다.</li>
+    </ul>
+    <pre class="code-snippet"># storage.py > StateStorage.load() 내부 손상 백업 및 복구 구현 코드
+except (OSError, json.JSONDecodeError, ValueError, TypeError) as exc:
+    print(f"⚠️ [WARN] 데이터 파일이 손상되었거나 읽을 수 없습니다 ({type(exc).__name__}: {exc}).")
+    self.backup_corrupted_file()  # state.json.corrupted.20261110_193258.bak 자동 생성
+    print("🔄 [INFO] 기본 퀴즈 데이터로 복구합니다.")
+    quizzes = get_default_quizzes()
+    self.save(quizzes, best_score=None, best_detail=None, history=[])
+    return quizzes, None, None, []</pre>
+  </div>
+
+  <!-- Q4-3 -->
+  <div class="qa-card">
+    <div class="qa-question">
+      <span class="q-num">문항 4-3</span>
+      <span>“정답 채점 방식(점수 계산)”이나 “퀴즈 구조(선택지 개수 등)” 요구사항이 바뀐다면, 어떤 파일/클래스/메서드를 먼저 수정해야 하는가?</span>
+    </div>
+    <div class="speech-box">
+      <b>🗣️ 핵심 답변:</b> "역할별로 클래스와 모듈이 분리되어 있어 수정 지점이 명확합니다. <b>① 채점 및 점수 계산식 변경</b>은 <code>game.py</code>의 <code>QuizGame.play_quiz()</code>(또는 문항별 배점 도입 시 <code>Quiz</code> 클래스 속성)만 수정하면 되고, <b>② 선택지 개수 변경(4지선다 → 5지선다)</b>은 <code>quiz.py</code>의 <code>Quiz.__init__ / from_dict</code> 검증 조건과 <code>game.py</code>의 입력 범위만 수정하면 되며, 파일 저장소(<code>storage.py</code>)는 전혀 수정할 필요가 없습니다."
+    </div>
+    <table class="eval-table">
+      <thead>
+        <tr>
+          <th style="width: 24%;">요구사항 변경 시나리오</th>
+          <th style="width: 38%;">1차 수정 대상 (파일 · 클래스 · 메서드)</th>
+          <th style="width: 38%;">수정 내용 및 영향 범위 (무변경 영역)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>시나리오 A:<br/>정답 채점/점수 계산 방식 변경</b><br/>(예: 문제별 난이도 차등 배점, 힌트 감점 변경)</td>
+          <td>• <code>game.py</code> → <code>QuizGame.play_quiz()</code><br/>• (문항별 배점 부여 시) <code>quiz.py</code> → <code>Quiz.__init__()</code>에 <code>points: int = 10</code> 속성 추가</td>
+          <td>• <code>play_quiz()</code>의 <code>raw_score</code>, <code>penalty</code> 계산식만 수정<br/>• <b>무변경</b>: 메뉴, 목록, 삭제, <code>StateStorage</code> 입출력 코드는 수정 불필요</td>
+        </tr>
+        <tr>
+          <td><b>시나리오 B:<br/>퀴즈 선택지 개수 변경</b><br/>(예: 4지선다 → 5지선다 또는 OX 퀴즈)</td>
+          <td>• <code>quiz.py</code> → <code>Quiz.__init__()</code>, <code>Quiz.from_dict()</code><br/>• <code>game.py</code> → <code>play_quiz()</code>, <code>add_quiz()</code></td>
+          <td>• 선택지 길이 검증(<code>len(choices) != 4</code>)과 정답 입력 범위(<code>get_valid_int(..., 1, 5)</code>) 수정<br/>• <b>무변경</b>: <code>Quiz.display()</code>는 <code>enumerate(self.choices, 1)</code>를 사용하므로 선택지 개수가 바뀌어도 자동 대응됨</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</body>
+</html>
